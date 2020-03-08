@@ -23,6 +23,10 @@ const postSchema = Schema({
         type: String,
         // required: true
     },
+    // public: {
+    //     type: Boolean,
+    //     // required: true
+    // }
 }, 
 { timestamps: true }
 );

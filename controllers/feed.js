@@ -9,7 +9,7 @@ const Post = require('../models/post.js');
 const User = require('../models/user');
 
 exports.getPosts = async (req, res, next) => {
-    console.log(req.query);
+    // console.log(req.query);
     const currentPage = req.query.page || 1;
     const perPage = 2;
     let totalItems;
@@ -58,28 +58,6 @@ exports.getPosts = async (req, res, next) => {
             }
         }
 
-    // if (req.query.userId) {
-    //     try {
-    //         totalItems = await Post.find().countDocuments()
-    //         posts = await Post.find()
-    //             .populate('creator')
-    //             .sort({ createdAt: -1 })
-    //             .skip((currentPage - 1) * perPage)
-    //             // .limit(perPage);
-    
-    //         res.status(200).json({
-    //             message: 'Fetched posts successfully.',
-    //             posts: posts,
-    //             totalItems: totalItems
-    //         });
-    //     } catch (err) {
-    //         if (!err.statusCode) {
-    //             err.statusCode = 500;
-    //         }
-    //         next(err);
-    //         }
-    //     }
-
 }
 
 exports.createPost = async (req, res, next) => {
@@ -90,11 +68,14 @@ exports.createPost = async (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
+
     if (!req.file) {
-        const error = new Error('No image provided');
-        error.statusCode = 422;
-        throw error;
+        res.status(422).json({ message: 'file is unacceptable file type or not exits'});
+        // const error = new Error('No image provided');
+        // error.statusCode = 422;
+        // throw error;
     }
+
     const imageUrl = req.file.path;
     const title = req.body.title;
     const content = req.body.content;
@@ -149,7 +130,7 @@ exports.getPost = async (req, res, next) => {
 }
 
 exports.updatePost = async (req, res, next) => {
-    // console.log(req);
+    // console.log('req.file', req.file);
     const postId = req.params.postId;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -157,6 +138,11 @@ exports.updatePost = async (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
+
+    // if (!req.file) {
+    //     res.status(422).json({ message: 'file is unacceptable file type or not exits'});
+    // }
+
     const title = req.body.title;
     const content = req.body.content;
     let imageUrl = req.body.image;
@@ -169,6 +155,8 @@ exports.updatePost = async (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
+
+    console.log('imageUrl', imageUrl);
     try {
 
         const post = await Post.findById(postId).populate('creator');

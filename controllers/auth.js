@@ -54,7 +54,7 @@ exports.login = async (req, res, next) => {
             throw error;
         }
         loadedUser = user;
-        console.log('user', user);
+        // console.log('user', user);
         const isEqual = await bcrypt.compare(password, user.password);
 
         if (!isEqual) {
@@ -62,17 +62,23 @@ exports.login = async (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
+        const nowSecond = Math.floor(Date.now() / 1000)
+        const expire = nowSecond + (60 * 60 * 24)  // 1day later
         const token = jwt.sign({
             email: loadedUser.email,
-            userId: loadedUser._id.toString()
+            userId: loadedUser._id.toString(),
+            exp: expire,
+            iat: nowSecond,
         },
             process.env.JWT_KEY,
-            { expiresIn: '1h' }
+            // { expiresIn: '1d' }
         );
         res.status(200).json({ 
             token: token, 
             userId: loadedUser._id.toString(), 
             name: loadedUser.name,
+            exp: expire,
+            iat: nowSecond
          });
 
     } catch (err) {
@@ -105,7 +111,7 @@ exports.getUserStatus = async (req, res, next) => {
 }
 
 exports.updateUserStatus = async (req, res, next) => {
-    console.log('req.body', req.body);
+    // console.log('req.body', req.body);
     const newStatus = req.body.status;
     try {
 

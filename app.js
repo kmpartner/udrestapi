@@ -26,8 +26,7 @@ const fileFilter = (req, file, cb) => {
         file.mimetype === 'image/jpg' ||
         file.mimetype === 'image/jpeg' || 
         file.mimetype === 'video/mp4' ||
-        file.mimetype === 'video/webm' ||
-        file.mimetype === 'audio/mpeg'
+        file.mimetype === 'video/webm' 
     ) {
         cb(null, true);
     } else {

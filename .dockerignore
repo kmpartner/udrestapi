@@ -3,8 +3,12 @@ npm-debug.log
 Dockerfile
 .dockerignore
 .git
-README.md
+
 .gitignore
 .env
 *.yaml
 *.yml
+
+README.md
+# images
+images-temporary
