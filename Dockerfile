@@ -6,12 +6,12 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 
-USER node
+# USER node
 
 RUN npm install
 
 COPY --chown=node:node . .
 
-EXPOSE 8080
+EXPOSE 8083
 
 CMD [ "node", "app.js" ]

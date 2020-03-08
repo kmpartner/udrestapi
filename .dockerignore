@@ -6,4 +6,5 @@ Dockerfile
 README.md
 .gitignore
 .env
-
+*.yaml
+*.yml

@@ -78,3 +78,13 @@ typings/
 #DynamoDB Local files 
 .dynamodb/ 
 
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+.git
+README.md
+.gitignore
+.env
+*.yaml
+*.yml
